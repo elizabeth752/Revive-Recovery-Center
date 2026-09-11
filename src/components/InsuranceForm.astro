@@ -1,0 +1,131 @@
+---
+import { site } from "../config/site";
+
+interface Props {
+  class?: string;
+  id?: string;
+}
+
+const { class: className = "", id } = Astro.props;
+---
+
+<div id={id} class:list={["rounded-xl overflow-hidden bg-brand-primary-dark shadow-lg", className]}>
+  <div class="flex items-center justify-center gap-2.5 px-5 pt-5 pb-1">
+    <img
+      src="/assets/logo/HIPAA.svg"
+      alt="HIPAA compliant"
+      class="h-7 w-auto shrink-0 [filter:brightness(0)_invert(1)]"
+    />
+    <p class="text-white text-[20px] font-semibold text-center">Get Instant Insurance Verification</p>
+  </div>
+
+  <form class="px-5 pt-4 pb-5 grid grid-cols-2 gap-x-3 gap-y-3" data-insurance-form>
+    <label class="col-span-1 text-left">
+      <span class="block text-white text-[13px] font-semibold mb-1">Your Name <span class="text-brand-accent">*</span></span>
+      <input type="text" name="caller_name" required class="field-input" />
+    </label>
+    <label class="col-span-1 text-left">
+      <span class="block text-white text-[13px] font-semibold mb-1">Your Phone <span class="text-brand-accent">*</span></span>
+      <div class="flex gap-1.5">
+        <span class="flex items-center gap-1 h-[45px] px-2 rounded-md border border-border bg-white text-[13px] text-text shrink-0">
+          🇺🇸 +1
+        </span>
+        <input type="tel" name="phone_number" required class="field-input" />
+      </div>
+    </label>
+    <label class="col-span-1 text-left">
+      <span class="block text-white text-[13px] font-semibold mb-1">Email <span class="text-brand-accent">*</span></span>
+      <input type="email" name="email" required class="field-input" />
+    </label>
+    <label class="col-span-1 text-left">
+      <span class="block text-white text-[13px] font-semibold mb-1">Insurance Carrier <span class="text-brand-accent">*</span></span>
+      <select name="insurance_carrier" required class="field-input">
+        {site.insuranceCarriers.map((carrier) => <option value={carrier}>{carrier}</option>)}
+      </select>
+    </label>
+    <label class="col-span-2 text-left">
+      <span class="block text-white text-[13px] font-semibold mb-1">Membership Policy ID <span class="text-brand-accent">*</span></span>
+      <input type="text" name="membership_policy_id" required class="field-input" />
+    </label>
+    <button type="submit" class="col-span-2 btn btn-primary w-full mt-1" data-submit-btn>
+      <span data-btn-label>Check Your Coverage</span>
+    </button>
+    <p class="col-span-2 text-white/70 text-[12px] text-center mt-1" data-form-hint>
+      Your information is private and secure. No pressure to commit.
+    </p>
+    <p class="col-span-2 text-white/80 text-[12px] text-center mt-1" data-form-fallback hidden>
+      Didn't open your phone? Call us directly at <a href={site.phoneHref} class="underline font-semibold text-white">{site.phone}</a>.
+    </p>
+  </form>
+</div>
+
+<script
+  define:vars={{
+    endpoint: site.insuranceForm.endpoint,
+    key: site.insuranceForm.key,
+    nameFieldKey: site.insuranceForm.nameFieldKey,
+    emailFieldKey: site.insuranceForm.emailFieldKey,
+    phoneHref: site.phoneHref,
+  }}
+>
+  document.querySelectorAll("[data-insurance-form]").forEach((form) => {
+    // This component renders more than once per page (hero + mobile), and
+    // each instance ships its own copy of this script, which would
+    // otherwise re-bind a submit handler onto every form on the page and
+    // double-POST to CTM. Guard so each form only ever gets wired once.
+    if (form.dataset.wired) return;
+    form.dataset.wired = "true";
+
+    const submitBtn = form.querySelector("[data-submit-btn]");
+    const btnLabel = form.querySelector("[data-btn-label]");
+    const hintEl = form.querySelector("[data-form-hint]");
+    const fallbackEl = form.querySelector("[data-form-fallback]");
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      if (submitBtn?.hasAttribute("disabled")) return;
+      submitBtn?.setAttribute("disabled", "");
+
+      const data = new FormData(form);
+      const localPhone = String(data.get("phone_number") || "").replace(/\D/g, "");
+      const gclid = new URLSearchParams(window.location.search).get("gclid");
+
+      const params = {
+        phone_number: `+1${localPhone}`,
+        "custom_fields[insurance_carrier]": String(data.get("insurance_carrier") || ""),
+        "custom_fields[membership_policy_id]": String(data.get("membership_policy_id") || ""),
+        [`custom_fields[${nameFieldKey}]`]: `FORM: ${String(data.get("caller_name") || "")}`,
+        [`custom_fields[${emailFieldKey}]`]: String(data.get("email") || ""),
+      };
+      if (gclid) params["paid_attribution[gclid]"] = gclid;
+
+      // Fire the CTM post in the background — a tel: handoff doesn't unload
+      // the page, so this request keeps running after the redirect below.
+      // We don't gate the call on it: a slow or failed CTM post shouldn't
+      // stop someone from reaching admissions.
+      fetch(`${endpoint}?key=${key}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams(params).toString(),
+      })
+        .then((res) => {
+          if (!res.ok) throw new Error(`CTM formreactor responded ${res.status}`);
+          window.dataLayer = window.dataLayer || [];
+          window.dataLayer.push({ event: "insurance_form_submit", form_location: form.closest("[id]")?.id || "unknown" });
+        })
+        .catch((err) => console.error("Insurance form CTM submission failed:", err));
+
+      if (btnLabel) btnLabel.textContent = "Calling...";
+      hintEl?.setAttribute("hidden", "");
+      fallbackEl?.removeAttribute("hidden");
+      window.location.href = phoneHref;
+
+      // The dialer handoff doesn't navigate away, so restore the button
+      // shortly after in case the user cancels the call and stays on page.
+      setTimeout(() => {
+        submitBtn?.removeAttribute("disabled");
+        if (btnLabel) btnLabel.textContent = "Check Your Coverage";
+      }, 4000);
+    });
+  });
+</script>

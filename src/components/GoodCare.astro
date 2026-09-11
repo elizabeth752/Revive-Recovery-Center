@@ -1,0 +1,18 @@
+---
+import { goodCare } from "../data/home";
+import { site } from "../config/site";
+---
+
+<section class="bg-brand-cream py-14 sm:py-16">
+  <div class="container-page max-w-[1154px] mx-auto grid lg:grid-cols-[598px_1fr] gap-8 lg:gap-12 items-center">
+    <div class="text-center lg:text-left">
+      <p class="text-[20px] text-text">{goodCare.eyebrow}</p>
+      <h2 class="mt-1">{goodCare.heading}</h2>
+      <p class="mt-4 text-text">{goodCare.body}</p>
+      <a href={site.phoneHref} class="btn btn-primary mt-6">Call For Help {site.phone}</a>
+    </div>
+    <div class="rounded-xl overflow-hidden aspect-[4/3] lg:aspect-[3/2]">
+      <img src={goodCare.image} alt="Private treatment room at Revive Recovery Center" class="w-full h-full object-cover" />
+    </div>
+  </div>
+</section>

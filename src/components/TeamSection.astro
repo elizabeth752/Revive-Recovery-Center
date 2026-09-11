@@ -1,0 +1,38 @@
+---
+import { team } from "../data/home";
+---
+
+<section class="bg-surface py-14 sm:py-20">
+  <div class="container-page">
+    <div class="text-center max-w-[1080px] mx-auto">
+      <h2>A Team That Treats You Like a Person, Not a Number</h2>
+      <p class="mt-3 text-text">{team.body}</p>
+    </div>
+
+    {/*
+      Staff names, titles and credentials are not yet approved for publication.
+      design-system.md §10 and team-eeat.md: never fabricate staff facts. This
+      placeholder is intentional, not an oversight — flagged in the delivery QA.
+    */}
+    <div class="mt-10 grid grid-cols-2 lg:grid-cols-4 gap-5 max-w-[1080px] mx-auto">
+      {
+        Array.from({ length: team.placeholderCount }).map(() => (
+          <div class="rounded-xl border border-border overflow-hidden">
+            <div class="aspect-square bg-surface-muted flex items-center justify-center">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" class="text-border">
+                <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.5" />
+                <path d="M4 20c1.5-4 5-6 8-6s6.5 2 8 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+              </svg>
+            </div>
+            <div class="p-4">
+              <p class="text-sm font-semibold text-text-muted">Care team bio coming soon</p>
+              <p class="mt-2 h-2 rounded-full bg-surface-muted w-full"></p>
+              <p class="mt-1.5 h-2 rounded-full bg-surface-muted w-5/6"></p>
+              <p class="mt-1.5 h-2 rounded-full bg-surface-muted w-2/3"></p>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

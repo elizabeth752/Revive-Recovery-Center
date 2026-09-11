@@ -1,0 +1,58 @@
+---
+import { standardOfCare } from "../data/home";
+---
+
+<section class="bg-brand-tertiary py-14 sm:py-20">
+  <div class="container-page text-center">
+    <h2 class="text-white">{standardOfCare.heading}</h2>
+
+    <div class="mt-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 max-w-[1310px] mx-auto">
+      {
+        standardOfCare.stats.map((stat) => (
+          <div class="bg-brand-cream rounded-xl pt-10 pb-6 px-4 relative">
+            <span class="absolute -top-9 left-1/2 -translate-x-1/2 w-[70px] h-[70px] rounded-full bg-white flex items-center justify-center shadow">
+              <img src={stat.icon} alt="" class="w-[70px] h-[70px]" />
+            </span>
+            <p class="text-3xl sm:text-4xl font-heading font-bold text-brand-primary" data-stat-value={stat.value}>
+              {stat.value}
+            </p>
+            <p class="mt-1 text-[18px] text-text">{stat.label}</p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  const els = document.querySelectorAll<HTMLElement>("[data-stat-value]");
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target as HTMLElement;
+        const raw = el.dataset.statValue || "";
+        const match = raw.match(/\d+/);
+        observer.unobserve(el);
+        if (!match || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+        const target = parseInt(match[0], 10);
+        const prefix = raw.slice(0, match.index);
+        const suffix = raw.slice((match.index ?? 0) + match[0].length);
+        const duration = 900;
+        const start = performance.now();
+
+        function tick(now: number) {
+          const progress = Math.min((now - start) / duration, 1);
+          const current = Math.round(target * progress);
+          el.textContent = `${prefix}${current}${suffix}`;
+          if (progress < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+      });
+    },
+    { threshold: 0.6 }
+  );
+
+  els.forEach((el) => observer.observe(el));
+</script>

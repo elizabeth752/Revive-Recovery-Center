@@ -1,0 +1,74 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Google Tag Manager -->
+    <script is:inline>
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != "dataLayer" ? "&l=" + l : "";
+        j.async = true;
+        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, "script", "dataLayer", "GTM-PFS3NJJJ");
+    </script>
+    <!-- End Google Tag Manager -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {/* Ad landing page: no organic job. Default to noindex per ads-landing-pages.md §5. */}
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;600;700;900&family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+      <iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-PFS3NJJJ"
+        height="0"
+        width="0"
+        style="display:none;visibility:hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <slot />
+    <script>
+      // Click-to-call tracking: fires on every tel: link sitewide (header,
+      // hero, CTAs, FAQ, footer, etc.) so GTM can trigger a conversion off
+      // event "click_to_call" without per-button wiring. Reads the href at
+      // click time rather than hard-coding the number, so this keeps
+      // working unchanged once CTM dynamic number insertion replaces the
+      // static fallback in config/site.ts.
+      document.addEventListener("click", (e) => {
+        const link = (e.target as HTMLElement).closest?.<HTMLAnchorElement>("a[href^='tel:']");
+        if (!link) return;
+        (window as any).dataLayer = (window as any).dataLayer || [];
+        (window as any).dataLayer.push({
+          event: "click_to_call",
+          phone_number: link.href.replace(/^tel:/, ""),
+          link_text: link.textContent?.trim(),
+          page_path: window.location.pathname,
+        });
+      });
+    </script>
+  </body>
+</html>

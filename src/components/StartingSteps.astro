@@ -1,0 +1,22 @@
+---
+import { steps } from "../data/home";
+---
+
+<section class="bg-brand-primary py-14 sm:py-20">
+  <div class="container-page text-center">
+    <h2 class="text-white">{steps.heading}</h2>
+    <p class="mt-3 text-white/90 max-w-2xl mx-auto">{steps.body}</p>
+
+    <div class="mt-10 grid sm:grid-cols-3 gap-5 max-w-[1310px] mx-auto">
+      {
+        steps.items.map((step) => (
+          <div class="bg-white rounded-[10px] px-[30px] py-6 text-center shadow-sm">
+            <img src={step.icon} alt="" class="mx-auto w-[70px] h-[70px]" />
+            <h3 class="mt-4 text-[20px] font-bold text-brand-primary">{step.title}</h3>
+            <p class="mt-2 text-[18px] text-text">{step.body}</p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

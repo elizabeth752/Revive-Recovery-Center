@@ -1,0 +1,44 @@
+---
+import Layout from "../layouts/Layout.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import Hero from "../components/Hero.astro";
+import WeMeetYou from "../components/WeMeetYou.astro";
+import RecoveryDifference from "../components/RecoveryDifference.astro";
+import GoodCare from "../components/GoodCare.astro";
+import ProgramContinuum from "../components/ProgramContinuum.astro";
+import ConditionsCarousel from "../components/ConditionsCarousel.astro";
+import InsuranceStrip from "../components/InsuranceStrip.astro";
+import StartingSteps from "../components/StartingSteps.astro";
+import Testimonials from "../components/Testimonials.astro";
+import StandardOfCare from "../components/StandardOfCare.astro";
+import LocationSection from "../components/LocationSection.astro";
+import FAQSection from "../components/FAQSection.astro";
+import MobileInsuranceSection from "../components/MobileInsuranceSection.astro";
+import FinalCTA from "../components/FinalCTA.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+---
+
+<Layout
+  title="Addiction Treatment That Fits Your Life and Your Budget | Revive Recovery Center"
+  description="Affordable PHP, IOP, virtual IOP, and outpatient treatment for drug, alcohol, and mental health conditions in Mesa, AZ. Most major insurance accepted and verified same day."
+>
+  <SiteHeader />
+  <main>
+    <Hero />
+    <WeMeetYou />
+    <RecoveryDifference />
+    <GoodCare />
+    <ProgramContinuum />
+    <ConditionsCarousel />
+    {/* TeamSection intentionally omitted — no approved staff data/photos yet. */}
+    <InsuranceStrip />
+    <StartingSteps />
+    <Testimonials />
+    <StandardOfCare />
+    <LocationSection />
+    <FAQSection />
+    <MobileInsuranceSection />
+    <FinalCTA />
+  </main>
+  <SiteFooter />
+</Layout>

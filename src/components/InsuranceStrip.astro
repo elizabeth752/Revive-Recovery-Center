@@ -1,0 +1,40 @@
+---
+import { insuranceStrip } from "../data/home";
+import { site } from "../config/site";
+---
+
+<section class="bg-surface py-14 sm:py-16">
+  <div class="container-page text-center">
+    <h2>{insuranceStrip.heading}</h2>
+    <p class="mt-3 text-text">{insuranceStrip.body}</p>
+  </div>
+
+  <div class="mt-8 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]" data-marquee>
+    <div class="flex w-max items-center gap-[120px] pr-[120px] animate-[marquee_32s_linear_infinite]" data-track>
+      {
+        [...insuranceStrip.logos, ...insuranceStrip.logos].map((logo) => (
+          <img src={logo.src} alt={logo.name} class="h-[50px] w-auto max-w-[133px] object-contain shrink-0" loading="lazy" />
+        ))
+      }
+    </div>
+  </div>
+
+  <div class="mt-8 text-center">
+    <a href={site.phoneHref} class="btn btn-primary">Verify Insurance Coverage</a>
+  </div>
+</section>
+
+<style>
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  [data-marquee]:hover [data-track] {
+    animation-play-state: paused;
+  }
+</style>
