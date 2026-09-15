@@ -1,12 +1,13 @@
 export const hero = {
   eyebrowBadges: ["Payment Plans Available", "Verified by Psychology Today"],
-  heading: "Addiction Treatment That Fits Your Life and Your Budget",
+  heading: "Mental Health and Addiction Treatment That Fits Your Life and Your Budget",
   subheading: "Getting help shouldn't mean putting your life on hold or draining your savings.",
-  body: "Revive Recovery Centers offers affordable treatment for drug, alcohol, and mental health conditions built around your schedule, your insurance, and your goals.",
+  body: "Revive Recovery Centers offers affordable treatment for mental health, drug, and alcohol conditions built around your schedule, your insurance, and your goals.",
   bullets: [
-    "PHP, IOP, virtual IOP, and outpatient treatment",
+    "Various levels of outpatient care, including PHP, IOP, virtual IOP, and outpatient treatment.",
     "Two individual therapy sessions per week at every level of care",
     "Most major insurance accepted and verified same day",
+    "Luxury Sober Living available for those who are seeking wrap around care",
   ],
 };
 
@@ -44,7 +45,7 @@ export const difference = {
     { icon: "/assets/icons/Dedicated-Care-Coordinator.svg", title: "Dedicated Care Coordinator", body: "One person who knows your case and helps you navigate every step." },
     { icon: "/assets/icons/Affordable-and-Accessible.svg", title: "Affordable and Accessible", body: "Clinical-grade treatment without the inpatient price tag, covered by most major plans." },
     { icon: "/assets/icons/Flexible-Levels-of-Care.svg", title: "Flexible Levels of Care", body: "PHP, IOP, Virtual IOP, and outpatient, step up or down as your needs change." },
-    { icon: "/assets/icons/Dual-Diagnosis.svg", title: "Dual Diagnosis", body: "We treat addiction and mental health together, because they rarely travel alone." },
+    { icon: "/assets/icons/Dual-Diagnosis.svg", title: "Dual Diagnosis", body: "We treat mental health and addiction together, because they rarely travel alone." },
     { icon: "/assets/icons/Family-Involvement.svg", title: "Family Involvement", body: "Recovery holds better when the people who matter most are included throughout treatment." },
     { icon: "/assets/icons/Medication-Management.svg", title: "Medication Management", body: "High quality medical and psychiatric support as part of your care including MAT options." },
     { icon: "/assets/icons/Experiential-Therapy.svg", title: "Experiential Therapy", body: "Yoga, fitness, art, and recreation built into treatment, not bolted on." },
@@ -82,16 +83,16 @@ export const continuum = {
 
 export const conditions = {
   heading: "Whatever You're Up Against, We Can Help",
-  subheading: "We treat substance use, mental health, or both, with care that addresses the whole picture, not just the symptom.",
+  subheading: "We treat mental health, substance use, or both, with care that addresses the whole picture, not just the symptom.",
   label: "Common Conditions:",
   cards: [
+    { icon: "/assets/icons/Generalized-Anxiety-Disorder-GAD.svg", title: "Anxiety and Depression", body: "Mental health conditions, treated on their own or alongside substance use." },
+    { icon: "/assets/icons/PTSD-Trauma-Related-Disorders.svg", title: "PTSD & Trauma", body: "Care for the experiences underneath so recovery can hold." },
     { icon: "/assets/icons/Alcohol.svg", title: "Alcohol Addiction", body: "Drinking that's affecting your health, work, or relationships." },
     { icon: "/assets/icons/Opioid.svg", title: "Opioid Addiction", body: "Dependence on heroin, fentanyl, or prescription painkillers." },
     { icon: "/assets/icons/Benzodiazepine.svg", title: "Benzodiazepine Addiction", body: "Dependence on Xanax, Ativan, and similar medications." },
     { icon: "/assets/icons/Stimulant-Addiction.svg", title: "Stimulant Addiction", body: "Meth, cocaine, or stimulant use affecting your stability." },
-    { icon: "/assets/icons/Generalized-Anxiety-Disorder-GAD.svg", title: "Anxiety and Depression", body: "Mental health conditions, treated on their own or alongside substance use." },
-    { icon: "/assets/icons/PTSD-Trauma-Related-Disorders.svg", title: "PTSD & Trauma", body: "Care for the experiences underneath so recovery can hold." },
-    { icon: "/assets/icons/Dual-Diagnosis-1.svg", title: "Dual Diagnosis", body: "Substance use and mental health conditions treated together, by one team." },
+    { icon: "/assets/icons/Dual-Diagnosis-1.svg", title: "Dual Diagnosis", body: "Mental health and substance use conditions treated together, by one team." },
   ],
 };
 
